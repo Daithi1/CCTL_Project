@@ -3,7 +3,7 @@ var app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-var port = 3000;
+var port = 8080;
 app.listen(port);
 
 app.get('/', function(req, res){
