@@ -1,0 +1,15 @@
+{
+  "name": "cctl",
+  "version": "1.0.0",
+  "description": "group project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.2.4",
+    "express": "^4.11.2"
+  }
+}
