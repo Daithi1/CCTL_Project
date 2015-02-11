@@ -22,7 +22,7 @@ npm install
 cd  node
 node server.js
 ```
-The programm will say :
+The program will say :
 ```
 server listening on port : <port>
 ```
