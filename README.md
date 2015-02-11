@@ -2,7 +2,9 @@
 
 ###Installation
 
-Install [NodeJS](http://matplotlib.org/)
+Install [NodeJS](http://nodejs.org/)
+
+Install [MongoDB](http://www.mongodb.org/)
 
 Clone the project:
 ```
@@ -18,5 +20,10 @@ npm install
 
 ```
 cd  node
-node app.js
+node server.js
 ```
+The programm will say :
+```
+server listening on port : <port>
+```
+Open your browser and go to "localhost:<port>"
