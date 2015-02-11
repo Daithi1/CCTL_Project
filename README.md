@@ -24,6 +24,6 @@ node server.js
 ```
 The program will say :
 ```
-server listening on port : <port>
+server listening on port : 'port'
 ```
-Open your browser and go to "localhost:<port>"
+Open your browser and go to "localhost: 'port'"
