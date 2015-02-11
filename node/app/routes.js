@@ -42,7 +42,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    // LOGOUt
+    // LOGOUT
     app.get('/logout', function(req, res) {
         //logout
         req.logout();
@@ -50,6 +50,11 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 
+    // RESULTS
+    app.get('/results', function(req, res) {
+        // render results page
+        res.render('results.ejs', {});
+    });
    
      
 };
