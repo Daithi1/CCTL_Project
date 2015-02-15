@@ -1,0 +1,13 @@
+CCTL To-Do:
+========================================================================
+	DONE		-API
+					- make /incrementconcept/:name -> increments diff by 1
+					- 
+
+- WebApp
+	- add completedPairs to userSchema -> array of conceptpair ids
+	- figure out how to do nice survey
+	- css to make it look nice
+
+- Server
+	- see how it runs on server

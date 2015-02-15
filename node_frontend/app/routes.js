@@ -1,3 +1,6 @@
+var request = require('request');
+var childprocess = require('child_process');
+
 module.exports = function(app, passport) {
 
     // HOME-PAGE
@@ -42,6 +45,15 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/survey', isLoggedIn, function(req, res) {
+        request.get('http://127.0.0.1:3000/conceptpairs', function(error, response, body) {
+            if(error) res.send(error);
+            else {
+                res.render('survey.ejs', {conceptpairs : JSON.parse(body)});
+            }
+        });
+    });
+
     // LOGOUT
     app.get('/logout', function(req, res) {
         //logout
@@ -52,10 +64,22 @@ module.exports = function(app, passport) {
 
     // RESULTS
     app.get('/results', function(req, res) {
-        // render results page
-        res.render('results.ejs', {});
+        request.get('http://127.0.0.1:3000/concepts', function(error, response, body) {
+            if(error) res.send(error);
+            else {
+                res.render('results.ejs', {concepts : JSON.parse(body)});
+            }
+        });
     });
-   
+    
+    app.get('/response/:concept', isLoggedIn, function(req, res) {
+        var concept = req.params.concept;
+        var cmd = 'python update_concept_diff.py ' + concept;
+        childprocess.exec(cmd, function(error, stdout, stderr) {
+            if(error) res.redirect('/');
+            else res.redirect('/results');
+        });
+    });
      
 };
 
@@ -67,5 +91,5 @@ function isLoggedIn(req, res, next) {
         return next();
     }
     // else redirect to homepage
-    res.redirect('/');
+    res.redirect('/login');
 }

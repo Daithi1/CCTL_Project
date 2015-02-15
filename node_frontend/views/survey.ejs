@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <title>CCTL - Skeleton</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body        { padding-top:70px; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1>Survey</h1>
+        <a href="/" class="btn btn-default btn-sm">Home</a>
+    </div>
+    
+    <table class="table">
+        <tbody>
+        <%var i = 0%>
+        <% while(i < conceptpairs.length) { %>
+        <tr>
+            <%for(var j = 0; j < 3 && i < conceptpairs.length; j++){%>
+            <td>
+            <div class="well">
+                <h3> <%= conceptpairs[i].c1 + " vs " + conceptpairs[i].c2 %></h3>
+                <a href="/response/:<%=conceptpairs[i].c1%>" class="btn btn-default btn-sm"><%= conceptpairs[i].c1 %></a>
+                <a href="/response/:<%=conceptpairs[i].c2%>" class="btn btn-default btn-sm"><%= conceptpairs[i++].c2 %></a>
+            </div>
+            </td>
+            <%}%>
+        </tr>
+         <% } %>
+        <tbody
+    </table>
+   
+
+</div>
+</body>
+</html>
