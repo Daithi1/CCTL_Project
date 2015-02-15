@@ -72,15 +72,51 @@ module.exports = function(app, passport) {
         });
     });
     
+    // handles responses to survey questions
     app.get('/response/:concept', isLoggedIn, function(req, res) {
         var concept = req.params.concept;
         var cmd = 'python update_concept_diff.py ' + concept;
         childprocess.exec(cmd, function(error, stdout, stderr) {
             if(error) res.redirect('/');
-            else res.redirect('/results');
+            else res.redirect('/survey');
         });
     });
-     
+
+    // creates new conceptpairs
+    app.get('/manageconceptpairs', isLoggedIn, function(req, res) {
+        request.get('http://127.0.0.1:3000/conceptpairs', function(error, response, body) {
+            if(error) res.send(error);
+            else {
+                res.render('manage.ejs', {conceptpairs : JSON.parse(body)}); 
+            }
+        });
+    });
+
+    // handles deleting of concept pairs from manage screen
+    app.get('/deletepair/:c1/:c2', isLoggedIn, function(req, res) {
+        var c1 = req.params.c1;
+        var c2 = req.params.c2;
+        request.del('http://127.0.0.1:3000/conceptpairs/'+c1+'/'+c2, function(error, response, body) {
+            if(error) res.send(error);
+            else {
+                res.redirect('/manageconceptpairs');
+            }
+        });
+    });
+
+    // handles creation of new concept pairs from manage screen
+    app.post('/addpair', isLoggedIn, function(req, res) {
+        var c1 = req.body.c1;
+        var c2 = req.body.c2;
+        if(c1 && c2) {
+            request.post({url : 'http://127.0.0.1:3000/conceptpairs/', form: {c1 : c1, c2 : c2}}, function(error, response, body){
+                if(error) res.send(error);
+                else res.redirect('manageconceptpairs');
+            });
+        } else {
+            res.redirect('/manageconceptpairs');
+        }
+    });
 };
 
 // check to see if a user is logged in

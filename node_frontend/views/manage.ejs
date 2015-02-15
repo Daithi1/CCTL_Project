@@ -12,13 +12,33 @@
 <div class="container">
 
     <div class="jumbotron text-center">
-        <h1>Survey</h1>
+        <h1>Manage</h1>
         <a href="/" class="btn btn-default btn-sm"><span class="fa fa-home"> Home</a>
+        <a href="/survey" class="btn btn-default btn-sm"><span class="fa fa-question"> Survey</a>
         <a href="/results" class="btn btn-default btn-sm"><span class="fa fa-bar-chart-o"> Results</a>
         <a href="/profile" class="btn btn-default btn-sm"><span class="fa fa-user"> Profile</a>
-        <a href="/logout" class="btn btn-default btn-sm"><span class="fa fa-sign-out"> Logout</a>
     </div>
-    
+    <div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-plus-circle"></span> Add a concept pair</h1>
+
+    <form action="/addpair" method="post">
+        <div class="form-group">
+            <label>Concept 1</label>
+            <input type="text" class="form-control" name="c1">
+        </div>
+        <div class="form-group">
+            <label>Concept 2</label>
+            <input type="text" class="form-control" name="c2">
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg">Add</button>
+    </form>
+
+    <hr>
+
+</div>
+
     <table class="table">
         <tbody>
         <%var i = 0%>
@@ -27,9 +47,9 @@
             <%for(var j = 0; j < 3 && i < conceptpairs.length; j++){%>
             <td>
             <div class="well">
-                <h3> <%= conceptpairs[i].c1 + " vs " + conceptpairs[i].c2 %></h3>
-                <a href="/response/:<%=conceptpairs[i].c1%>" class="btn btn-default btn-sm"><%= conceptpairs[i].c1 %></a>
-                <a href="/response/:<%=conceptpairs[i].c2%>" class="btn btn-default btn-sm"><%= conceptpairs[i++].c2 %></a>
+                <h3 align="center"> <%= conceptpairs[i].c1 + " vs " + conceptpairs[i].c2 %></h3>
+                <p align="center"><a href="/deletepair/<%=conceptpairs[i].c1%>/<%=conceptpairs[i].c2%>" class="btn btn-default btn-sm"><span class ="fa fa-trash-o"> Delete</span></a></p>
+                <%i++%>
             </div>
             </td>
             <%}%>
