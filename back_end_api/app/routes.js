@@ -1,5 +1,6 @@
-var Concepts = require('./models/concepts.js');
+var Concepts 	 = require('./models/concepts.js');
 var ConceptPairs = require('./models/conceptPairs.js');
+var Users 		 = require('./models/users.js');
 
 module.exports = function(app) {
 
@@ -97,6 +98,27 @@ module.exports = function(app) {
 		});
 	});
 
+	// get an unanswered concept pair for a user
+	app.get('/conceptpairs/:userid', function(req, res) {
+		var id = req.params.userid;
+		Users.findById(id, function(err, user){
+			if(err) res.send(err);
+			else if(user.unanswered.length == 0) {
+				res.sendStatus(404);
+			} else {
+				var unans = user.unanswered;
+				var pair = unans.pop()
+				if(pair) {
+					ConceptPairs.findById(pair, function(err, p) {
+						if(err) res.send(err);
+						res.json(p);
+					});
+					Users.findByIdAndUpdate(id, {unanswered : unans}, function(){});
+				}
+			}
+		});
+	});
+
 	// create a new concept-pair
 	app.post('/conceptpairs', function(req, res) {
 		var conceptpair = req.body;
@@ -120,6 +142,42 @@ module.exports = function(app) {
 		ConceptPairs.findByIdAndRemove(id, function(err, post) {
 			if(err) res.send(err);
 			res.json(post);
+		});
+	});
+
+	// =====================================
+	// Users
+	// =====================================
+
+
+	app.post('/users', function(req, res) {
+		var b = req.body;
+		var id = b.id;
+		getPairIds(function(pairIds) {
+			Users.create({_id : id, unanswered : pairIds}, function(err, user) {
+				if(err) res.send(err);
+				else res.send(user);
+			});
+		});
+	});
+
+	var getPairIds = function(callback) {
+		var ids = [];
+		ConceptPairs.find(function(err, c){
+			if(err) return null;
+			else {
+				for(var i = 0; i < c.length; i++) {
+					ids.push(c[i]._id);
+					if(i == c.length -1) callback(ids);
+				}
+			}
+		});
+	}
+
+	app.get('/users', function(req, res){
+		Users.find(function(err, users) {
+			if(err) res.send(err);
+			else res.json(users);
 		});
 	});
 

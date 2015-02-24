@@ -1,13 +1,13 @@
 CCTL To-Do:
 ========================================================================
-	DONE		-API
-					- make /incrementconcept/:name -> increments diff by 1
-					- 
+	API
+		- make routes.js nicer
+		- Add users
+			-> conceptpairs[] = filled with unsanswered concept pairs
+			-> id = id from frontend
+		- Add get ('/conceptpairs/:userid')
+			-> pops an unanswered concept from a given user and returns it
 
-- WebApp
-	- add completedPairs to userSchema -> array of conceptpair ids
-	- figure out how to do nice survey
-	- css to make it look nice
+	Front-end
 
-- Server
-	- see how it runs on server
+		- successful post('/signup') should send createuser request to backend

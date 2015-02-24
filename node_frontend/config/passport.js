@@ -1,4 +1,5 @@
 var LocalStrategy   = require('passport-local').Strategy;
+var request = require('request');
 var User = require('../app/models/users');
 
 module.exports = function(passport) {
@@ -42,7 +43,11 @@ module.exports = function(passport) {
                     newUser.save(function(err) {
                         if (err)
                             throw err;
-                        return done(null, newUser);
+                        else {
+                            request.post({url : 'http://127.0.0.1:3000/users', form: {id : String(newUser._id)}}, function(error, response, body){
+                            });
+                            return done(null, newUser);
+                        }
                     });
                 }
 
