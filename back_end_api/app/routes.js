@@ -104,7 +104,7 @@ module.exports = function(app) {
 		Users.findById(id, function(err, user){
 			if(err) res.send(err);
 			else if(user.unanswered.length == 0) {
-				res.sendStatus(404);
+				res.json(null);
 			} else {
 				var unans = user.unanswered;
 				var pair = unans.pop()
@@ -114,6 +114,8 @@ module.exports = function(app) {
 						res.json(p);
 					});
 					Users.findByIdAndUpdate(id, {unanswered : unans}, function(){});
+				} else {
+					res.json(null);
 				}
 			}
 		});
