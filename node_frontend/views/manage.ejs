@@ -20,16 +20,16 @@
     </div>
     <div class="col-sm-6 col-sm-offset-3">
 
-    <h1>Add a concept pair</h1>
+    <h1>Add a concept</h1>
 
-    <form action="/addpair" method="post">
+    <form action="/addconcept" method="post">
         <div class="form-group">
-            <label>Concept 1</label>
-            <input type="text" class="form-control" name="c1">
+            <label>Concept title</label>
+            <input type="text" class="form-control" name="title">
         </div>
         <div class="form-group">
-            <label>Concept 2</label>
-            <input type="text" class="form-control" name="c2">
+            <label>Concept description</label>
+            <input type="text" class="form-control" name="description">
         </div>
 
         <button type="submit" class="btn btn-warning btn-lg"><span class="fa fa-plus-circle"></span> Add</button>
@@ -42,13 +42,13 @@
     <table class="table">
         <tbody>
         <%var i = 0%>
-        <% while(i < conceptpairs.length) { %>
+        <% while(i < concepts.length) { %>
         <tr>
-            <%for(var j = 0; j < 3 && i < conceptpairs.length; j++){%>
+            <%for(var j = 0; j < 3 && i < concepts.length; j++){%>
             <td>
             <div class="well">
-                <h3 align="center"> <%= conceptpairs[i].c1 + " vs " + conceptpairs[i].c2 %></h3>
-                <p align="center"><a href="/deletepair/<%=conceptpairs[i].c1%>/<%=conceptpairs[i].c2%>" class="btn btn-default btn-sm"><span class ="fa fa-trash-o"> Delete</span></a></p>
+                <h3 align="center"> <%= concepts[i].name %></h3>
+                <p align="center"><%= concepts[i].description %></p>
                 <%i++%>
             </div>
             </td>

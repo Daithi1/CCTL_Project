@@ -47,9 +47,10 @@ module.exports = function(app, passport) {
     });
 
     app.get('/survey', isLoggedIn, function(req, res) {
-        request.get(apiURL + '/conceptpairs/' + req.user.id, function(error, response, body) {
+        request.get(apiURL + '/surveyquestion', function(error, response, body) {
             if(error) res.send(error);
             else {
+                console.log(JSON.parse(body).c1.name);
                 res.render('survey.ejs', {conceptpair : JSON.parse(body)});
             }
         });
@@ -74,21 +75,19 @@ module.exports = function(app, passport) {
     });
     
     // handles responses to survey questions
-    app.get('/response/:concept', isLoggedIn, function(req, res) {
-        var concept = req.params.concept;
-        var cmd = 'python update_concept_diff.py ' + concept;
-        childprocess.exec(cmd, function(error, stdout, stderr) {
-            if(error) res.redirect('/');
-            else res.redirect('/survey');
+    app.get('/response/:id', isLoggedIn, function(req, res) {
+        var conceptid = req.params.id;
+        request({ url: apiURL + '/concepts/increment/' + conceptid, method: 'PUT', json: {}}, function(error, response, body) {
+            res.redirect('/survey');
         });
     });
 
     // creates new conceptpairs
     app.get('/manageconceptpairs', isLoggedIn, function(req, res) {
-        request.get(apiURL + '/conceptpairs', function(error, response, body) {
+        request.get(apiURL + '/concepts', function(error, response, body) {
             if(error) res.send(error);
             else {
-                res.render('manage.ejs', {conceptpairs : JSON.parse(body)}); 
+                res.render('manage.ejs', {concepts : JSON.parse(body)}); 
             }
         });
     });
@@ -112,8 +111,21 @@ module.exports = function(app, passport) {
         if(c1 && c2) {
             request.post({url : apiURL + '/conceptpairs/', form: {c1 : c1, c2 : c2}}, function(error, response, body){
                 if(error) res.send(error);
-                else res.redirect('manageconceptpairs');
+                else res.redirect('/manageconceptpairs');
             });
+        } else {
+            res.redirect('/manageconceptpairs');
+        }
+    });
+
+    app.post('/addconcept', isLoggedIn, function(req, res) {
+        var concept = { name : req.body.title,
+                        description : req.body.description};
+        if(concept) {
+            request.post({url : apiURL + '/concepts', form : {concept : concept}}, function(error, response, body) {
+                if(error) res.send(error);
+                else res.redirect('/manageconceptpairs')
+            })
         } else {
             res.redirect('/manageconceptpairs');
         }

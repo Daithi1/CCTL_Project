@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var conceptSchema = mongoose.Schema({
 	_id			 : String,
     name         : String,
+    description	 : String,
     difficulty   : Number,
     //more info possibly added later
 });

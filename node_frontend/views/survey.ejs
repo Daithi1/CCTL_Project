@@ -25,10 +25,10 @@
             <td>
             <div class="well">
                 <% if(conceptpair) { %>
-                    <h3 align="center"> <%= conceptpair.c1 + " vs " + conceptpair.c2 %></h3>
+                    <h3 align="center"> <%= conceptpair.c1.name + " vs " + conceptpair.c2.name %></h3>
                     <p align="center">
-                        <a href="/response/:<%=conceptpair.c1%>" class="btn btn-default btn-sm"><%= conceptpair.c1 %></a>
-                        <a href="/response/:<%=conceptpair.c2%>" class="btn btn-default btn-sm"><%= conceptpair.c2 %></a>
+                        <a href="/response/<%=conceptpair.c1._id%>" class="btn btn-warning btn-lg"><%= conceptpair.c1.name %></a>
+                        <a href="/response/<%=conceptpair.c2._id%>" class="btn btn-warning btn-lg"><%= conceptpair.c2.name %></a>
                     </p>
                  <% } else {%>
                     <h3 align="center"> No more concepts to answer. </h3>
