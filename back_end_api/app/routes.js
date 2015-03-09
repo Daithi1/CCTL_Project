@@ -5,8 +5,8 @@ var salt = bcrypt_conf.salt;
 
 module.exports = function(app) {
 
-	app.get('/api', function (req, res) {
-  		res.send('API is running');
+	app.get('/', function (req, res) {
+  		res.send('CCTL API is running');
 	});
 	// =====================================
 	// Concepts
@@ -146,7 +146,8 @@ module.exports = function(app) {
 
 	var getConceptId = function(concept) {
 		var con = concept.toLowerCase().replace(/[^\w\s]|_/g, "");
-		return bcrypt.hashSync(con, salt);
+		var id =  bcrypt.hashSync(con, salt).replace('/', "");
+		return id;
 	}
 
 	var conceptExists = function(id) {
