@@ -1,8 +1,13 @@
 var request = require('request');
 var childprocess = require('child_process');
+var express = require('express');
 var apiURL = 'http://localhost:3000';
 
 module.exports = function(app, passport) {
+
+    // Static Content (css/js/fonts)
+    app.use('/assets', express.static('assets'));
+    app.use('/fonts', express.static('fonts'));    
 
     // HOME-PAGE
     app.get('/', function(req, res) {
