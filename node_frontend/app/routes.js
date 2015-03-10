@@ -7,13 +7,17 @@ module.exports = function(app, passport) {
     // HOME-PAGE
     app.get('/', function(req, res) {
         // render homepage
-        res.render('index.ejs');
+        res.render('index.ejs', { isLoggedIn : req.isAuthenticated()});
     });
 
     // LOGIN-PAGE
     app.get('/login', function(req, res) {
         // render login page with any flash-messages
-        res.render('login.ejs', { message: req.flash('loginMessage') }); 
+        if(req.isAuthenticated()) {
+            res.redirect('/profile');
+        } else {
+            res.render('login.ejs', { message: req.flash('loginMessage')}); 
+        }
     });
 
     // handle login forms
@@ -26,8 +30,12 @@ module.exports = function(app, passport) {
     // SIGN-UP
     app.get('/signup', function(req, res) {
 
-        // render signup and any flash mesaages
-        res.render('signup.ejs', { message: req.flash('signupMessage') });
+        if(req.isAuthenticated()){
+            res.redirect('/profile');
+        } else {
+            // render signup and any flash mesaages
+            res.render('signup.ejs', { message: req.flash('signupMessage')});
+        }
     });
 
     // handle sign-up form
@@ -42,7 +50,7 @@ module.exports = function(app, passport) {
     app.get('/profile', isLoggedIn, function(req, res) {
         // render user's profile page
         res.render('profile.ejs', {
-            user : req.user
+            user : req.user,
         });
     });
 
@@ -69,7 +77,8 @@ module.exports = function(app, passport) {
         request.get(apiURL + '/concepts', function(error, response, body) {
             if(error) res.send(error);
             else {
-                res.render('results.ejs', {concepts : JSON.parse(body)});
+                res.render('results.ejs', {concepts : JSON.parse(body),
+                                           isLoggedIn : req.isAuthenticated()});
             }
         });
     });
@@ -83,7 +92,7 @@ module.exports = function(app, passport) {
     });
 
     // creates new conceptpairs
-    app.get('/manageconceptpairs', isLoggedIn, function(req, res) {
+    app.get('/manageconcepts', isLoggedIn, function(req, res) {
         request.get(apiURL + '/concepts', function(error, response, body) {
             if(error) res.send(error);
             else {
@@ -99,7 +108,7 @@ module.exports = function(app, passport) {
         request.del(apiURL + '/conceptpairs/'+c1+'/'+c2, function(error, response, body) {
             if(error) res.send(error);
             else {
-                res.redirect('/manageconceptpairs');
+                res.redirect('/manageconcepts');
             }
         });
     });
@@ -111,10 +120,10 @@ module.exports = function(app, passport) {
         if(c1 && c2) {
             request.post({url : apiURL + '/conceptpairs/', form: {c1 : c1, c2 : c2}}, function(error, response, body){
                 if(error) res.send(error);
-                else res.redirect('/manageconceptpairs');
+                else res.redirect('/manageconcepts');
             });
         } else {
-            res.redirect('/manageconceptpairs');
+            res.redirect('/manageconcepts');
         }
     });
 
@@ -124,10 +133,10 @@ module.exports = function(app, passport) {
         if(concept) {
             request.post({url : apiURL + '/concepts', form : {concept : concept}}, function(error, response, body) {
                 if(error) res.send(error);
-                else res.redirect('/manageconceptpairs')
+                else res.redirect('/manageconcepts')
             })
         } else {
-            res.redirect('/manageconceptpairs');
+            res.redirect('/manageconcepts');
         }
     });
 };
