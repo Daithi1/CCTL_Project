@@ -59,8 +59,10 @@
         }
     ]
 };
-	var myNewChart = new Chart(ctx).Bar(data);	
-		myNewChart.yAxisLabel = "Difficulty";
+	var myNewChart = new Chart(ctx).Bar(data, {
+		yAxisLabel:"Difficulty"
+		
+	});	
 		
 	</script>
 </body>
