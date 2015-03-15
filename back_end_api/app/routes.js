@@ -2,6 +2,7 @@ var Concepts 	 = require('./models/concepts.js');
 var bcrypt		 = require('bcrypt');
 var bcrypt_conf	 = require('../config/bcrypt.js');
 var salt = bcrypt_conf.salt;
+var validRanges = ['a', 'b', 'overall'];
 
 module.exports = function(app) {
 
@@ -40,10 +41,13 @@ module.exports = function(app) {
 	var createConcept = function(concept, res) {
 		var id = getConceptId(concept.name);
 		if (conceptExists(id)) return false;
-		Concepts.create({_id : id, name: concept.name, description : concept.description, difficulty: 0}, function(err, conc) {
+		else {
+			var diff = {overall : 0, a : 0, b : 0}
+			Concepts.create({_id : id, name: concept.name, description : concept.description, difficulty: diff}, function(err, conc) {
 			if(err) return err;
 			return conc;
 		});
+		}
 	}
 
 	// updates a specific concept
@@ -55,16 +59,33 @@ module.exports = function(app) {
 		});
 	});
 
-	app.put('/concepts/increment/:id', function(req, res) {
+	app.put('/concepts/increment/:id/:agerange', function(req, res) {
 		var id = req.params.id;
-		Concepts.findById(id, function(error, conc) {
-			var newDif = conc.difficulty + 1;
-			Concepts.findByIdAndUpdate(id, {difficulty : newDif}, function(err, post) {
-				if(err) res.send(err);
-				res.json(post);
+		var range = req.params.agerange;
+		if (isValidRange(range)) {
+			Concepts.findById(id, function(error, conc) {
+				var newDif = conc.difficulty;
+				if(!String(range) != ('overall')) { newDif.overall++;}
+				newDif[range]++;
+				console.log(range);
+				Concepts.findByIdAndUpdate(id, {difficulty : newDif}, function(err, post) {
+					if(err) res.send(err);
+					res.json(post);
+				});
 			});
-		});
+		} else {
+			res.sendStatus(404);
+		}
 	});
+
+	var isValidRange = function(range) {
+		var r = String(range);
+		if (validRanges.indexOf(r) > -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	// delete a concept
 	app.delete('/concepts/:id', function(req, res) {
@@ -109,7 +130,29 @@ module.exports = function(app) {
 		});
 	});
 
-	var getRandomPair = function(callback) {
+
+	app.get('/results/:range', function(req,res) {
+		var range = req.params.range;
+		if(!isValidRange(range)) {
+			res.sendStatus(404);
+		} else {
+			getConceptsSortByRange(range, function(concepts) {
+				res.json(concepts);
+			});
+		}
+	});
+
+	var getConceptsSortByRange = function(range, callback) {
+		Concepts.find(function(err, concepts) {
+			if(err) return {};
+			else {
+				var r = String(range);
+				callback(concepts.sort(function(a, b) {return b.difficulty[r] - a.difficulty[r]}));
+			}
+		});
+	}
+
+	var getRandomPair = function(callback) {	
 		Concepts.find(function(err, concepts) {
 			if(err) {
 				callback(null);

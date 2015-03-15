@@ -5,7 +5,7 @@ var conceptSchema = mongoose.Schema({
 	_id			 : String,
     name         : String,
     description	 : String,
-    difficulty   : Number,
+    difficulty   : {overall : Number, a : Number, b : Number},
     //more info possibly added later
 });
 

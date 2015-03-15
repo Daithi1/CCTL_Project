@@ -9,7 +9,7 @@ name = str(sys.argv[1])
 
 data = json.dumps({})
 
-address = base_url + '/concepts/increment/' + name
+address = base_url + '/concepts/increment/' + name + '/a'
 req = urllib2.Request(address, None, header)
 req.get_method = lambda : 'PUT'
 response = urllib2.urlopen(req)

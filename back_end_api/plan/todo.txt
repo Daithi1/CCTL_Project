@@ -1,13 +1,27 @@
 CCTL To-Do:
 ========================================================================
-	API
-		- make routes.js nicer
-		- Add users
-			-> conceptpairs[] = filled with unsanswered concept pairs
-			-> id = id from frontend
-		- Add get ('/conceptpairs/:userid')
-			-> pops an unanswered concept from a given user and returns it
+	Add age-ranges
+	====================================================================
+
+	Back-end
+		- Change Concept Schema
+			- difficulty should be object -> array of age range diffs and overall diff
+		- Change /concepts/increment/:id
+			-> should take /:agerange
+			-> increment that age range (if exists) and increment overall
+
+		- Add /results
+			-> Returns concepts in order of overall diff
+			  Concepts = {concept0.....conceptn}
+			  Concept = {id, diff}
+
+		- Add /results/:agerange
+			-> Returns concepts in order of diff for given range (if exists)
+				(concepts and concept same as above)
 
 	Front-end
+		- Change /results and results.ejs
+			-> Should start with overall diff
+			-> add /results/:agerange
+				-> displays results.ejs with diff age range
 
-		- successful post('/signup') should send createuser request to backend

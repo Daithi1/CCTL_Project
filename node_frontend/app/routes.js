@@ -63,7 +63,6 @@ module.exports = function(app, passport) {
         request.get(apiURL + '/surveyquestion', function(error, response, body) {
             if(error) res.send(error);
             else {
-                console.log(JSON.parse(body).c1.name);
                 res.render('survey.ejs', {conceptpair : JSON.parse(body)});
             }
         });
@@ -79,7 +78,7 @@ module.exports = function(app, passport) {
 
     // RESULTS
     app.get('/results', function(req, res) {
-        request.get(apiURL + '/concepts', function(error, response, body) {
+        request.get(apiURL + '/results/overall', function(error, response, body) {
             if(error) res.send(error);
             else {
                 res.render('results.ejs', {concepts : JSON.parse(body),
@@ -91,7 +90,7 @@ module.exports = function(app, passport) {
     // handles responses to survey questions
     app.get('/response/:id', isLoggedIn, function(req, res) {
         var conceptid = req.params.id;
-        request({ url: apiURL + '/concepts/increment/' + conceptid, method: 'PUT', json: {}}, function(error, response, body) {
+        request({ url: apiURL + '/concepts/increment/' + conceptid + '/b', method: 'PUT', json: {}}, function(error, response, body) {
             res.redirect('/survey');
         });
     });
