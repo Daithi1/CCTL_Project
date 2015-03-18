@@ -59,11 +59,18 @@ module.exports = function(app, passport) {
         });
     });
 
+
     app.get('/survey', isLoggedIn, function(req, res) {
+        res.render('survey_choose_range.ejs');
+    });
+
+    app.get('/survey/:agerange', isLoggedIn, function(req, res) {
+        var range = req.params.agerange;
         request.get(apiURL + '/surveyquestion', function(error, response, body) {
             if(error) res.send(error);
             else {
-                res.render('survey.ejs', {conceptpair : JSON.parse(body)});
+                res.render('survey.ejs', {conceptpair : JSON.parse(body),
+                                          ageRange : range});
             }
         });
     });
@@ -78,7 +85,12 @@ module.exports = function(app, passport) {
 
     // RESULTS
     app.get('/results', function(req, res) {
-        request.get(apiURL + '/results/overall', function(error, response, body) {
+        res.redirect('/results/overall');
+    });
+
+    app.get('/results/:agerange', function(req, res) {
+        var range = req.params.agerange;
+        request.get(apiURL + '/results/' + range, function(error, response, body) {
             if(error) res.send(error);
             else {
                 res.render('results.ejs', {concepts : JSON.parse(body),
@@ -86,12 +98,17 @@ module.exports = function(app, passport) {
             }
         });
     });
+
+    app.get('/poop', function(req, res) {
+        res.render('results_choose_age.ejs', {isLoggedIn : req.isAuthenticated()});
+    });
     
     // handles responses to survey questions
-    app.get('/response/:id', isLoggedIn, function(req, res) {
+    app.get('/response/:id/:agerange', isLoggedIn, function(req, res) {
         var conceptid = req.params.id;
-        request({ url: apiURL + '/concepts/increment/' + conceptid + '/b', method: 'PUT', json: {}}, function(error, response, body) {
-            res.redirect('/survey');
+        var range = req.params.agerange;
+        request({ url: apiURL + '/concepts/increment/' + conceptid + '/' + range, method: 'PUT', json: {}}, function(error, response, body) {
+            res.redirect('/survey/' + String(range));
         });
     });
 
