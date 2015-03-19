@@ -61,7 +61,11 @@ module.exports = function(app, passport) {
 
 
     app.get('/survey', isLoggedIn, function(req, res) {
-        res.render('survey_choose_range.ejs');
+        request.get(apiURL + '/ranges', function(error, response, body){
+            console.log(body);
+            res.render('survey_choose_range.ejs', {ranges : JSON.parse(body)});
+        });
+        
     });
 
     app.get('/survey/:agerange', isLoggedIn, function(req, res) {
@@ -93,8 +97,12 @@ module.exports = function(app, passport) {
         request.get(apiURL + '/results/' + range, function(error, response, body) {
             if(error) res.send(error);
             else {
-                res.render('results.ejs', {concepts : JSON.parse(body),
-                                           isLoggedIn : req.isAuthenticated()});
+                request.get(apiURL + '/ranges', function(err, resp, bod){
+                    res.render('results.ejs', {concepts : JSON.parse(body),
+                                            isLoggedIn : req.isAuthenticated(),
+                                            ranges : JSON.parse(bod),
+                                            range : range});
+                });
             }
         });
     });

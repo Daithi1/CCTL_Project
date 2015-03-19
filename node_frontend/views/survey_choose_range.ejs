@@ -41,8 +41,9 @@
                 Age Range <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="/survey/a">A</a></li>
-                <li><a href="/survey/b">B</a></li>
+                <%for (var key in ranges) {%>
+                    <li><a href="/survey/<%=ranges[key].url%>"><%=ranges[key].name%></a></li>
+                <% } %>
               </ul>
             </div>
         </div>

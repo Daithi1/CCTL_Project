@@ -2,13 +2,25 @@ var Concepts 	 = require('./models/concepts.js');
 var bcrypt		 = require('bcrypt');
 var bcrypt_conf	 = require('../config/bcrypt.js');
 var salt = bcrypt_conf.salt;
-var validRanges = ['a', 'b', 'overall'];
+var validRanges = ['a', 'b', 'c', 'overall'];
+var ageRanges = {
+					a : {name : "under 12", url : 'a'},
+					b : {name : "12 - 18", url : 'b'},
+					c : {name : "over 18", url : 'c'},
+					overall : {name : "overall", url : 'overall'}
+					};
+var start_diff = {overall : 0, a : 0, b : 0, c : 0};
 
 module.exports = function(app) {
 
 	app.get('/', function (req, res) {
   		res.send('CCTL API is running');
 	});
+
+	app.get('/ranges', function(req, res) {
+		res.json(ageRanges);
+	});
+
 	// =====================================
 	// Concepts
 	// =====================================
@@ -42,8 +54,7 @@ module.exports = function(app) {
 		var id = getConceptId(concept.name);
 		if (conceptExists(id)) return false;
 		else {
-			var diff = {overall : 0, a : 0, b : 0}
-			Concepts.create({_id : id, name: concept.name, description : concept.description, difficulty: diff}, function(err, conc) {
+			Concepts.create({_id : id, name: concept.name, description : concept.description, difficulty: start_diff}, function(err, conc) {
 			if(err) return err;
 			return conc;
 		});

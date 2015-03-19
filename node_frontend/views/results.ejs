@@ -46,8 +46,9 @@
                 Age Range <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="/results/a">A</a></li>
-                <li><a href="/results/b">B</a></li>
+                <%for (var key in ranges) {%>
+                    <li><a href="/results/<%=ranges[key].url%>"><%=ranges[key].name%></a></li>
+                <% } %>
               </ul>
             </div>
         </div>
@@ -69,7 +70,7 @@
                                             <div class="well" align="center">
                                                 <h3> <%= concepts[i].name %></h3>
                                                 <p>
-                                                    <strong><%= concepts[i++].difficulty.overall %></strong>
+                                                    <strong><%= concepts[i++].difficulty[range] %></strong>
                                                 </p>
                                             </div>    
                                         </td>
