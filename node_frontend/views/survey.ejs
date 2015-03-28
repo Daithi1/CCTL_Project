@@ -33,30 +33,27 @@
     <br/>
     <!-- body -->
     <div class="container">
-
         <div class="jumbotron text-center">
             <h1>Survey</h1>
         </div>
-        
-        <table class="table">
-            <tbody>
-            <tr>
-                <td>
-                <div class="well">
-                    <% if(conceptpair) { %>
-                        <h3 align="center"> <%= conceptpair.c1.name + " vs " + conceptpair.c2.name %></h3>
-                        <p align="center">
-                            <a href="/response/<%=conceptpair.c1._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c1.name %></a>
-                            <a href="/response/<%=conceptpair.c2._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c2.name %></a>
-                        </p>
-                     <% } else {%>
-                        <h3 align="center"> No more concepts to answer. </h3>
-                    <% } %>
+        <div class="row">
+            <% if(conceptpair) { %>
+                <div class="col-xs-6" align="center">
+                    <div class="well">
+                        <a href="/response/<%=conceptpair.c1._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c1.name %></a>
+                        <p><%= conceptpair.c1.description%></p>
+                    </div>
                 </div>
-                </td>
-            </tr>
-            <tbody
-        </table>
+                <div class="col-xs-6" align="center">
+                    <div class="well">
+                        <a href="/response/<%=conceptpair.c2._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c2.name %></a>
+                        <p><%= conceptpair.c1.description%></p>
+                    </div>
+                </div> 
+             <% } else {%>
+                <h3 align="center"> No more concepts to answer. </h3>
+            <% } %>
+        </div>
     </div>
     <script src="/assets/jquery-2.1.3.min.js"></script>
     <script src="/assets/bootstrap.min.js"></script>

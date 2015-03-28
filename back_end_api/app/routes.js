@@ -2,14 +2,20 @@ var Concepts 	 = require('./models/concepts.js');
 var bcrypt		 = require('bcrypt');
 var bcrypt_conf	 = require('../config/bcrypt.js');
 var salt = bcrypt_conf.salt;
-var validRanges = ['a', 'b', 'c', 'overall'];
+var validRanges = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'overall'];
 var ageRanges = {
-					a : {name : "under 12", url : 'a'},
-					b : {name : "12 - 18", url : 'b'},
-					c : {name : "over 18", url : 'c'},
+					a : {name : "0-3", url : 'a'},
+					b : {name : "4-5", url : 'b'},
+					c : {name : "6-7", url : 'c'},
+					d : {name : "8-11", url: 'd'},
+					e : {name : "12-14", url : 'e'},
+					f : {name : "15-16", url : 'f'},
+					g : {name : "17-18", url : 'g'},
+					h : {name : "19-21", url : 'h'},
+					i : {name : "21+", url : 'i'},
 					overall : {name : "overall", url : 'overall'}
 					};
-var start_diff = {overall : 0, a : 0, b : 0, c : 0};
+var start_diff = {overall : 0, a : 0, b : 0, c : 0, d : 0, e : 0, f : 0, h : 0, i : 0};
 
 module.exports = function(app) {
 
@@ -45,6 +51,7 @@ module.exports = function(app) {
 	// create a new concept
 	app.post('/concepts', function(req, res) {
 		var concept = req.body.concept;
+		console.log(concept);
 		var created = createConcept(concept);
 		if(created) res.send(created);
 		res.send("Concept already exists");
@@ -200,7 +207,7 @@ module.exports = function(app) {
 
 	var getConceptId = function(concept) {
 		var con = concept.toLowerCase().replace(/[^\w\s]|_/g, "");
-		var id =  bcrypt.hashSync(con, salt).replace('/', "");
+		var id =  bcrypt.hashSync(con, salt).replace(/[^\w\s]|_/g, "");
 		return id;
 	}
 

@@ -62,7 +62,6 @@ module.exports = function(app, passport) {
 
     app.get('/survey', isLoggedIn, function(req, res) {
         request.get(apiURL + '/ranges', function(error, response, body){
-            console.log(body);
             res.render('survey_choose_range.ejs', {ranges : JSON.parse(body)});
         });
         
@@ -107,8 +106,13 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/poop', function(req, res) {
-        res.render('results_choose_age.ejs', {isLoggedIn : req.isAuthenticated()});
+    // displays a page for each concept
+    app.get('/concepts/:id', function(req, res) {
+        request.get(apiURL + '/concepts/' + req.params.id, function(error, response, body) {
+            var conc = JSON.parse(body);
+            res.render('concepts.ejs', {isLoggedIn: req.isAuthenticated(),
+                                        concept : conc});
+        });
     });
     
     // handles responses to survey questions
