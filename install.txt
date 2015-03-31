@@ -1,0 +1,68 @@
+install git
+--------------------------------------
+
+	apt-get install -y git
+
+
+install mongodb
+---------------------
+
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+	echo "deb http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+
+	update
+
+	sudo apt-get install -y mongodb-org
+
+	sudo service mongod start
+
+install node
+-----------------------
+
+	install nvm
+	-------------------
+	git clone https://github.com/creationix/nvm.git ~/.nvm && cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`
+
+	source ~/.nvm/nvm.sh
+
+	install stable version of node
+	-------------------------------
+
+	nvm install stable
+
+	nvm alias default stable
+
+Install the project
+-----------------------
+
+	git clone https://github.com/Daithi1/CCTL_Project.git
+
+	install node's dependencies
+	-------------------------------
+
+		front-end
+		----------------
+		cd "frontend"
+		npm install
+
+		back-end
+		----------------
+		cd "backend"
+		npm install
+
+
+Run the project in the background
+-----------------------------------
+
+
+npm install -g forever
+
+	to start the frontend/backend
+
+	forever start api.js
+
+	forever start server.js
+
+	
+
