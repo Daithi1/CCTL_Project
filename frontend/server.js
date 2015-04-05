@@ -1,6 +1,6 @@
 var express  = require('express');
 var app = express();
-var port = 8000;
+var port = process.argv[2];
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
@@ -15,6 +15,9 @@ var configDB = require('./config/database.js');
 mongoose.connect(configDB.urls.users); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
+
+// get URL for backend API
+app.apiUrl = process.argv[3];
 
 // express setup
 app.use(morgan('dev'));

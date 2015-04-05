@@ -62,7 +62,7 @@ npm install -g forever
 
 	forever start api.js
 
-	forever start server.js
+	forever start server.js [port number]
 
 	
 

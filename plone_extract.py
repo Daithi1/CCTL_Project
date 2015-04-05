@@ -4,6 +4,8 @@ import sys
 import re
 from bs4 import BeautifulSoup as bs
 
+api_url = sys.argv[1]
+print api_url
 
 base_url = 'http://134.226.40.5:8080/ct4l/knowledge'
 header = {'Content-Type': 'application/json'}
@@ -35,9 +37,10 @@ for l in links:
 				'description' : description
 				}
 	}
-
-	api = 'http://localhost:3000/concepts'
-	req = url.Request(api, json.dumps(data), header)
+	
+	address = api_url + '/concepts'
+	print address
+	req = url.Request(address, json.dumps(data), header)
 	res = url.urlopen(req)
 	res.close()
 

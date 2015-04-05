@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>CCTL - Skeleton</title>
+    <title>CCTL</title>
     <link rel="stylesheet" href="/assets/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/font-awesome.min.css">
     <style>
@@ -37,9 +37,15 @@
         </div>
        <div>
             <div class="well">
-                <h3 align="center"><span class="fa fa-user"></span> Local</h3>
+                <h3 align="center"><span class="fa fa-user"></span></h3>
                 <p>
-                    <strong>email</strong>: <%= user.local.email %><br>
+                    <strong>Teaching Level</strong>: <%= user.local.teachingLevel %><br>
+                </p>
+                <p>
+                    <strong>Years Experience</strong>: <%= user.local.experience %><br>
+                </p>
+                <p>
+                    <strong>Email</strong>: <%= user.local.email %><br>
                 </p>
             </div>
         </div>

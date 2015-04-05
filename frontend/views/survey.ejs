@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>CCTL - Skeleton</title>
+    <title>CCTL</title>
     <link rel="stylesheet" href="/assets/bootstrap.min.css"> 
     <link rel="stylesheet" href="/assets/font-awesome.min.css">
     <style>
@@ -31,21 +31,36 @@
         </div>
     </div>
     <br/>
-    <!--     body -->
+    <!-- body -->
     <div class="container">
         <div class="jumbotron text-center">
-            <h1>Choose an age range...</h1>
-            <!-- Single button -->
-            <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                Age Range <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <%for (var key in ranges) {%>
-                    <li><a href="/survey/<%=ranges[key].url%>"><%=ranges[key].name%></a></li>
-                <% } %>
-              </ul>
+            <h1>Survey</h1>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" align="center">
+                <div>
+                    <h3>For that age range, which concept is more difficult?</h3>
+                </div>
             </div>
+            <div class="col-xs-12"><hr></div>
+        </div>
+        <div class="row">
+            <% if(conceptpair) { %>
+                <div class="col-xs-6" align="center">
+                    <div class="well">
+                        <a href="/response/<%=conceptpair.c1._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c1.name %></a>
+                        <p align="left"><%= conceptpair.c1.description%></p>
+                    </div>
+                </div>
+                <div class="col-xs-6" align="center">
+                    <div class="well">
+                        <a href="/response/<%=conceptpair.c2._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c2.name %></a>
+                        <p align="left"><%= conceptpair.c2.description%></p>
+                    </div>
+                </div> 
+             <% } else {%>
+                <h3 align="center"> No more concepts to answer. </h3>
+            <% } %>
         </div>
     </div>
     <script src="/assets/jquery-2.1.3.min.js"></script>

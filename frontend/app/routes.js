@@ -1,9 +1,12 @@
 var request = require('request');
 var childprocess = require('child_process');
 var express = require('express');
-var apiURL = 'http://localhost:3000';
+
 
 module.exports = function(app, passport) {
+
+
+    var apiURL = app.apiUrl;
 
     // Static Content (css/js/fonts)
     app.use('/assets', express.static('assets'));
@@ -46,7 +49,7 @@ module.exports = function(app, passport) {
     // handle sign-up form
      app.post('/signup', passport.authenticate('local-signup', {
         successRedirect : '/profile', // redirect to profile on successful sign-up
-        failureRedirect : '/signup', // rre-render signup page if unsuccessful
+        failureRedirect : '/signup', // re-render signup page if unsuccessful
         failureFlash : true         // allow flash messages
     }));
 

@@ -2,41 +2,44 @@
 
 ###Installation
 
-Install [NodeJS](http://nodejs.org/)
+Follow the instructions in install.txt to install the project and its dependencies
 
-Install [MongoDB](http://www.mongodb.org/)
+###Run the project
 
-Clone the project:
-```
-git clone <project>
-```
-Install dependencies:
-Frontend:
-```
-cd CCTL_Project/node_frontend;npm install;
-```
-Backend:
-```
-cd CCTL_Project/back_end_api;npm install;
-```
- 
-###Run it
-With mongodb running on port 27017 follow the instructions below
+With the dependencies installed, go the backend directory:
 
-Backend:
 ```
-cd CCTL_Project/back_end_api
-node api.js
+CCTL_Project/backend
 ```
 
-Frontend
+Start the backend API running on a port of your choice :
+
 ```
-cd  CCTL_Project/node_frontend
-node server.js
+forever start api.js <port number>
+
 ```
-The program will say :
+
+The backend is now running on the specified port number.
+
+Go to the frontend directory:
+
 ```
-server listening on port : 'port'
+CCTL_Project/frontend
 ```
-The site is at localhost:'port'.
-Open your browser and go to http://localhost:'port'
+
+Start the frontend running on a port of your choice. You will need
+to provide the URL for the backend also:
+
+```
+forever start server.js <port number> <backend url>
+```
+
+For example to run the backend on port 3000, and the frontend of port 80 of the same host,
+the two commands would be:
+
+```
+forever start api.js 3000
+
+forever start server.js 80 'http://localhost:3000'
+
+```
