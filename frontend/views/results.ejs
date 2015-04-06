@@ -64,16 +64,15 @@
             <% while(i < concepts.length) { %>
                 <div class="row">
                     <div class="col-xs-2"></div>
-                    <a href="/concepts/<%= concepts[i]._id%>" style="text-decoration : none; color : inherit;">
                         <div class="col-xs-8">
                                 <div class="well" align="center">
-                                    <h3> <%= concepts[i].name %></h3>
                                     <p>
-                                        <strong><%= concepts[i++].difficulty[range] %></strong>
+                                        <a href="/concepts/<%= concepts[i]._id%>" class="btn btn-primary btn-lg">
+                                            <%= concepts[i++].name %>
+                                        </a>
                                     </p>
                                 </div>
                         </div>
-                    </a>
                     <div class="col-xs-2"></div>
                 </div>
             <% } %>

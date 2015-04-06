@@ -113,6 +113,7 @@ module.exports = function(app, passport) {
     app.get('/concepts/:id', function(req, res) {
         request.get(apiURL + '/concepts/' + req.params.id, function(error, response, body) {
             var conc = JSON.parse(body);
+            //console.log(conc);
             res.render('concepts.ejs', {isLoggedIn: req.isAuthenticated(),
                                         concept : conc});
         });
