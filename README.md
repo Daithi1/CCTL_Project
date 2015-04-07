@@ -43,3 +43,11 @@ forever start api.js 3000
 forever start server.js 80 'http://localhost:3000'
 
 ```
+
+The extraction tool takes the infromation from Plone and adds it to the backend. You must prvide the url for the backend.
+To run the extraction tool:
+
+```
+python plone_extract.py <backend url>
+```
+
