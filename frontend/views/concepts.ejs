@@ -73,7 +73,7 @@
         var ctx = document.getElementById("chart").getContext("2d");
         var diffs = <%- JSON.stringify(concept.difficulty)%>;
         var data = {
-            labels: ['0-3', '4-5', '6-7', '8-11', '12-14', '15-16', '17-18', '19-21', '21+'],
+            labels: ['total', '0-3', '4-5', '6-7', '8-11', '12-14', '15-16', '17-18', '19-21', '21+'],
             datasets: [
                 {
                     label: "difficulties",
@@ -81,7 +81,7 @@
                     strokeColor: "rgba(220,0,220,0.8)",
                     highlightFill: "rgba(220,220,220,0.75)",
                     highlightStroke: "rgba(220,220,220,1)",
-                    data: [diffs.a, diffs.b, diffs.c, diffs.d, diffs.e, diffs.f, diffs.h, diffs.i]
+                    data: [diffs.overall, diffs.a, diffs.b, diffs.c, diffs.d, diffs.e, diffs.f, diffs.h, diffs.i]
                 },
             ]
         };
