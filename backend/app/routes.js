@@ -110,12 +110,12 @@ module.exports = function(app) {
 							var inc = conc2.difficulty[range] / 10;
 							var dec = conc1.difficulty[range] / 20;
 							var dif1 = conc1.difficulty;
+							var dif2 = conc2.difficulty;
 							if(range != 'overall') {
 								dif1.overall += inc;
 								dif2.overall -= dec;
 							}
 							dif1[range] += inc;
-							var dif2 = conc2.difficulty;
 							dif2[range] -= dec;
 							Concepts.findByIdAndUpdate(id1, {difficulty : dif1}, function(err3, post) {
 								Concepts.findByIdAndUpdate(id2, {difficulty : dif2} , function(err4, success) {

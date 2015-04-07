@@ -33,6 +33,20 @@ install node
 
 	nvm alias default stable
 
+Install python
+----------------------------------
+
+apt-get install build-essential
+
+apt-get install python3
+
+apt-get install python-pip
+
+Install dependencies for extraction tool
+--------------------------------------
+
+pip install beautifulsoup4
+
 Install the project
 -----------------------
 
@@ -60,9 +74,12 @@ npm install -g forever
 
 	to start the frontend/backend
 
-	forever start api.js
+	forever start api.js [port number]
 
-	forever start server.js [port number]
+	forever start server.js [port number] [api url]
 
 	
+
+
+
 
