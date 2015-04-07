@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>CCTL</title>
@@ -48,13 +48,13 @@
             <% if(conceptpair) { %>
                 <div class="col-xs-6" align="center">
                     <div class="well">
-                        <a href="/response/<%=conceptpair.c1._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c1.name %></a>
+                        <a href="/response/<%=conceptpair.c1._id%>/<%=conceptpair.c2._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c1.name %></a>
                         <p align="left"><%= conceptpair.c1.description%></p>
                     </div>
                 </div>
                 <div class="col-xs-6" align="center">
                     <div class="well">
-                        <a href="/response/<%=conceptpair.c2._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c2.name %></a>
+                        <a href="/response/<%=conceptpair.c2._id%>/<%=conceptpair.c1._id%>/<%=ageRange%>" class="btn btn-primary btn-lg"><%= conceptpair.c2.name %></a>
                         <p align="left"><%= conceptpair.c2.description%></p>
                     </div>
                 </div> 

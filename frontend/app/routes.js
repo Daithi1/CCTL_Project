@@ -128,6 +128,16 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/response/:id1/:id2/:agerange', isLoggedIn, function(req, res) {
+        var id1 = req.params.id1;
+        var id2 = req.params.id2;
+        var range = req.params.agerange;
+
+        request({ url: apiURL + '/concepts/newrank/' + id1 + '/' + id2 + '/' + range, method: 'PUT', json: {}}, function(error, response, body) {
+            res.redirect('/survey/' + String(range));
+        });
+    });
+
     // creates new conceptpairs
     app.get('/manageconcepts', isLoggedIn, function(req, res) {
         request.get(apiURL + '/concepts', function(error, response, body) {

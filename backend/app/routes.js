@@ -15,7 +15,7 @@ var ageRanges = {
 					i : {name : "21+", url : 'i'},
 					overall : {name : "overall", url : 'overall'}
 					};
-var start_diff = {overall : 0, a : 0, b : 0, c : 0, d : 0, e : 0, f : 0, h : 0, i : 0};
+var start_diff = {overall : 8, a : 1, b : 1, c : 1, d : 1, e : 1, f : 1, h : 1, i : 1};
 
 module.exports = function(app) {
 
@@ -83,7 +83,7 @@ module.exports = function(app) {
 		if (isValidRange(range)) {
 			Concepts.findById(id, function(error, conc) {
 				var newDif = conc.difficulty;
-				if(!String(range) != ('overall')) { newDif.overall++;}
+				if(String(range) != ('overall')) { newDif.overall++;}
 				newDif[range]++;
 				console.log(range);
 				Concepts.findByIdAndUpdate(id, {difficulty : newDif}, function(err, post) {
@@ -94,6 +94,43 @@ module.exports = function(app) {
 		} else {
 			res.sendStatus(404);
 		}
+	});
+
+	app.put('/concepts/newrank/:id1/:id2/:agerange', function(req, res) {
+		var id1 = req.params.id1;
+		var id2 = req.params.id2;
+		var range = req.params.agerange;
+		if (isValidRange(range)) {
+			Concepts.findById(id1, function(err, conc1) {
+				if (err) res.send(err);
+				else  {
+					Concepts.findById(id2, function(err2, conc2) {
+						if(err2) res.send(err2);
+						else {
+							var inc = conc2.difficulty[range] / 10;
+							var dec = conc1.difficulty[range] / 20;
+							var dif1 = conc1.difficulty;
+							if(range != 'overall') {
+								dif1.overall += inc;
+								dif2.overall -= dec;
+							}
+							dif1[range] += inc;
+							var dif2 = conc2.difficulty;
+							dif2[range] -= dec;
+							Concepts.findByIdAndUpdate(id1, {difficulty : dif1}, function(err3, post) {
+								Concepts.findByIdAndUpdate(id2, {difficulty : dif2} , function(err4, success) {
+									if(err4) res.send(err4);
+									else res.json(success);
+								});
+							});
+						}
+					})
+				}
+			});
+		} else {
+			res.sendStatus(404);
+		}
+
 	});
 
 	var isValidRange = function(range) {
